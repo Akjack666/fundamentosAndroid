@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import kotlinx.android.synthetic.main.item_film.view.*
 
 class FilmsAdapter(val listener: (Film) -> Unit) :
         RecyclerView.Adapter<FilmsAdapter.FilmViewHolder>() {
@@ -38,7 +39,14 @@ class FilmsAdapter(val listener: (Film) -> Unit) :
         var film: Film? = null
             set(value) {
                 field = value
-                (itemView as TextView).text = value?.title
+
+                with(itemView) {
+                    field?.let {
+                        labelTitle.text = it.title
+                        labelGenre.text = it.genre
+                        labelRating.text = it.rating.toString()
+                    }
+                }
             }
 
         init {
