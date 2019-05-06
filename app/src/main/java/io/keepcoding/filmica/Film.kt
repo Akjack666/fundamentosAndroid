@@ -1,6 +1,7 @@
 package io.keepcoding.filmica
 
 data class Film(
+        val id: String = "",
         val title: String = "No title",
         val genre: String = "No genre",
         val rating: Float = 0.0f,

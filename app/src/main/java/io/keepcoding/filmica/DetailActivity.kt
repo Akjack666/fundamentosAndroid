@@ -2,8 +2,7 @@ package io.keepcoding.filmica
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.widget.Button
-import android.widget.Toast
+
 
 class DetailActivity : AppCompatActivity() {
 
@@ -11,11 +10,19 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
-        val button: Button = findViewById(R.id.button_add)
+        if (savedInstanceState == null) {
+            val fragment = DetailFragment()
+            val id = intent.getStringExtra("id")
 
-        button.setOnClickListener {
-            Toast.makeText(this@DetailActivity, "Añadido al watchlist", Toast.LENGTH_LONG).show()
+            val args = Bundle()
+            args.putString("id", id)
+
+            fragment.arguments = args
+
+            supportFragmentManager.beginTransaction()
+                    .add(R.id.container, fragment)
+                    .commit()
+
         }
-
     }
 }
