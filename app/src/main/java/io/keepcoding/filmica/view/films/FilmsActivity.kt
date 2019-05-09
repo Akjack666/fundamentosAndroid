@@ -1,12 +1,17 @@
-package io.keepcoding.filmica
+package io.keepcoding.filmica.view.films
 
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.FrameLayout
+import io.keepcoding.filmica.R
+import io.keepcoding.filmica.data.Film
+import io.keepcoding.filmica.view.detail.DetailActivity
+import io.keepcoding.filmica.view.detail.DetailFragment
 
 
-class FilmsActivity : AppCompatActivity(), FilmsFragment.OnFilmClickLister {
+class FilmsActivity : AppCompatActivity(),
+    FilmsFragment.OnFilmClickLister {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +33,10 @@ class FilmsActivity : AppCompatActivity(), FilmsFragment.OnFilmClickLister {
             startActivity(intent)
         } else {
             supportFragmentManager.beginTransaction()
-                    .replace(R.id.container_detail, DetailFragment.newInstance(film.id))
+                    .replace(
+                        R.id.container_detail,
+                        DetailFragment.newInstance(film.id)
+                    )
                     .commit()
         }
     }

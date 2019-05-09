@@ -1,6 +1,7 @@
-package io.keepcoding.filmica
+package io.keepcoding.filmica.data
 
 import android.net.Uri
+import io.keepcoding.filmica.BuildConfig
 
 object ApiRoutes {
 

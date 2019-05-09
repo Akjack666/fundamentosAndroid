@@ -1,4 +1,4 @@
-package io.keepcoding.filmica
+package io.keepcoding.filmica.data
 
 object ApiConstants {
     val genres: Map<Int, String> = mapOf(

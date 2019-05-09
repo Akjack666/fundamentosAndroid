@@ -1,7 +1,6 @@
-package io.keepcoding.filmica
+package io.keepcoding.filmica.data
 
 import android.content.Context
-import android.net.Uri
 import com.android.volley.Request
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
@@ -26,9 +25,11 @@ object FilmsRepo {
         val url = ApiRoutes.discoverMoviesUrl()
         val request = JsonObjectRequest(Request.Method.GET, url, null,
             { response ->
-                val films = Film.parseFilms(response.getJSONArray("results"))
-                this.films.addAll(films)
-                onResponse.invoke(this.films)
+                val films =
+                    Film.parseFilms(response.getJSONArray("results"))
+                FilmsRepo.films.clear()
+                FilmsRepo.films.addAll(films)
+                onResponse.invoke(FilmsRepo.films)
             },
             { error ->
                 error.printStackTrace()

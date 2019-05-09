@@ -1,16 +1,18 @@
-package io.keepcoding.filmica
+package io.keepcoding.filmica.view.films
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import io.keepcoding.filmica.R
+import io.keepcoding.filmica.data.Film
+import io.keepcoding.filmica.data.FilmsRepo
+import io.keepcoding.filmica.view.util.GridOffsetDecoration
 import kotlinx.android.synthetic.main.fragment_films.*
-import java.lang.IllegalArgumentException
+import kotlinx.android.synthetic.main.layout_error.*
 
 class FilmsFragment : Fragment() {
 
@@ -47,23 +49,43 @@ class FilmsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         list.adapter = adapter
+        buttonRetry.setOnClickListener { reload() }
     }
 
     override fun onResume() {
         super.onResume()
+        reload()
+    }
+
+    private fun reload() {
+        showProgress()
 
         FilmsRepo.discoverFilms(context!!,
             { films ->
                 adapter.setFilms(films)
-                progress.visibility = View.INVISIBLE
-                error.visibility = View.INVISIBLE
-                list.visibility = View.VISIBLE
+                showList()
 
             }, { errorRequest ->
-                progress.visibility = View.INVISIBLE
-                list.visibility = View.INVISIBLE
-                error.visibility = View.VISIBLE
+                showError()
             })
+    }
+
+    private fun showList() {
+        filmsProgress.visibility = View.INVISIBLE
+        error.visibility = View.INVISIBLE
+        list.visibility = View.VISIBLE
+    }
+
+    private fun showError() {
+        filmsProgress.visibility = View.INVISIBLE
+        list.visibility = View.INVISIBLE
+        error.visibility = View.VISIBLE
+    }
+
+    private fun showProgress() {
+        filmsProgress.visibility = View.VISIBLE
+        error.visibility = View.INVISIBLE
+        list.visibility = View.INVISIBLE
     }
 
 

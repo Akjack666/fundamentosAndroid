@@ -1,7 +1,8 @@
-package io.keepcoding.filmica
+package io.keepcoding.filmica.view.detail
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import io.keepcoding.filmica.R
 
 
 class DetailActivity : AppCompatActivity() {
