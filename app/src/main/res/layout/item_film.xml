@@ -8,15 +8,16 @@
     tools:layout_width="212dp">
 
     <FrameLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="186dp"
+        android:background="@color/colorPrimary"
         tools:layout_width="212dp">
 
-        <ImageView
+        <io.keepcoding.filmica.view.util.FadeImageView
             android:id="@+id/imgPoster"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorPrimary"
             android:scaleType="centerCrop"
             tools:srcCompat="@tools:sample/avatars" />
 

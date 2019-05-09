@@ -1,7 +1,6 @@
 package io.keepcoding.filmica.view.films
 
 import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.support.v7.graphics.Palette
 import android.support.v7.widget.RecyclerView
@@ -9,9 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
-import com.squareup.picasso.Target
 import io.keepcoding.filmica.R
 import io.keepcoding.filmica.data.Film
+import io.keepcoding.filmica.view.util.SimpleTarget
 import kotlinx.android.synthetic.main.item_film.view.*
 
 class FilmsAdapter(val listener: (Film) -> Unit) :
@@ -61,34 +60,29 @@ class FilmsAdapter(val listener: (Film) -> Unit) :
             }
 
         private fun loadImage(it: Film) {
-            val target = object : Target {
-                override fun onBitmapFailed(errorDrawable: Drawable?) {
-                }
-
-                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
-                }
-
-                override fun onBitmapLoaded(
-                    bitmap: Bitmap,
-                    from: Picasso.LoadedFrom
-                ) {
-                    itemView.imgPoster.setImageBitmap(bitmap)
-                    Palette.from(bitmap).generate {
-                        val defaultColor =
-                            ContextCompat.getColor(itemView.context, R.color.colorPrimary)
-                        val swatch = it?.vibrantSwatch ?: it?.dominantSwatch
-                        val color = swatch?.rgb ?: defaultColor
-
-                        itemView.containerData.setBackgroundColor(color)
-                    }
-                }
+            val target = SimpleTarget { bitmap: Bitmap ->
+                itemView.imgPoster.setImageBitmap(bitmap)
+                setColor(bitmap)
             }
 
             itemView.imgPoster.tag = target
 
             Picasso.with(itemView.context)
                 .load(it.getPosterUrl())
+                .error(R.drawable.placeholder)
                 .into(target)
+        }
+
+        private fun setColor(bitmap: Bitmap) {
+            Palette.from(bitmap).generate {
+                val defaultColor =
+                    ContextCompat.getColor(itemView.context, R.color.colorPrimary)
+                val swatch = it?.vibrantSwatch ?: it?.dominantSwatch
+                val color = swatch?.rgb ?: defaultColor
+
+                itemView.container.setBackgroundColor(color)
+                itemView.containerData.setBackgroundColor(color)
+            }
         }
 
         init {
