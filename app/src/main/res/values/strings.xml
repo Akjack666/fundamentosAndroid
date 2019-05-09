@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Filmica</string>
     <string name="label_add_watchlist">Add to watchlist</string>
+    <string name="label_genre">Genre</string>
+    <string name="label_release_date">Release Date</string>
+    <string name="label_overview">Overview</string>
+    <string name="error_request">Ups something bad happened, try again</string>
+    <string name="label_retry">Retry</string>
 </resources>

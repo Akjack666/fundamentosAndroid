@@ -12,7 +12,7 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_films.*
 import java.lang.IllegalArgumentException
 
-class FilmsFragment: Fragment() {
+class FilmsFragment : Fragment() {
 
     lateinit var listener: OnFilmClickLister
 
@@ -28,22 +28,42 @@ class FilmsFragment: Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
-        if(context is OnFilmClickLister) {
+        if (context is OnFilmClickLister) {
             listener = context
         } else {
             throw IllegalArgumentException("The attached activity isn't implementing ${OnFilmClickLister::class.java.canonicalName}")
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_films, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter.setFilms(FilmsRepo.films)
         list.adapter = adapter
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        FilmsRepo.discoverFilms(context!!,
+            { films ->
+                adapter.setFilms(films)
+                progress.visibility = View.INVISIBLE
+                error.visibility = View.INVISIBLE
+                list.visibility = View.VISIBLE
+
+            }, { errorRequest ->
+                progress.visibility = View.INVISIBLE
+                list.visibility = View.INVISIBLE
+                error.visibility = View.VISIBLE
+            })
     }
 
 

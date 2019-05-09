@@ -26,7 +26,6 @@ class FilmsActivity : AppCompatActivity(), FilmsFragment.OnFilmClickLister {
             val intent = Intent(this, DetailActivity::class.java)
             intent.putExtra("id", film.id)
             startActivity(intent)
-
         } else {
             supportFragmentManager.beginTransaction()
                     .replace(R.id.container_detail, DetailFragment.newInstance(film.id))

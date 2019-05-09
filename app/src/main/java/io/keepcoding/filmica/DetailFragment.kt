@@ -36,6 +36,7 @@ class DetailFragment : Fragment() {
             labelDescription.text = it.overview
             labelGenres.text = it.genre
             labelDate.text = it.date
+            labelRating.text = it.rating.toString()
         }
 
         buttonAdd.setOnClickListener {
