@@ -1,17 +1,26 @@
 package io.keepcoding.filmica.data
 
+import android.arch.persistence.room.ColumnInfo
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.Ignore
+import android.arch.persistence.room.PrimaryKey
 import org.json.JSONArray
 import org.json.JSONObject
+import java.util.*
 
+@Entity
 data class Film(
-    val id: String = "",
+    @PrimaryKey val id: String = UUID.randomUUID().toString(),
+    @ColumnInfo(name = "poster_id") val posterId: String = "",
     val title: String = "No title",
     val genre: String = "No genre",
     val rating: Float = 0.0f,
     val overview: String = "No overview",
-    val date: String = "1999-09-19",
-    val posterId: String = ""
+    val date: String = "1999-09-19"
 ) {
+    @Ignore
+    constructor(): this("")
+
     fun getPosterUrl(): String {
         return "https://image.tmdb.org/t/p/w500/${posterId}"
     }

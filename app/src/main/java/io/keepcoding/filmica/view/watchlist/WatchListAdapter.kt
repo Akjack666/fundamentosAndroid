@@ -1,6 +1,7 @@
-package io.keepcoding.filmica.view.films
+package io.keepcoding.filmica.view.watchlist
 
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.support.v4.content.ContextCompat
 import android.support.v7.graphics.Palette
 import android.view.View
@@ -10,32 +11,29 @@ import io.keepcoding.filmica.data.Film
 import io.keepcoding.filmica.view.util.BaseFilmAdapter
 import io.keepcoding.filmica.view.util.BaseFilmHolder
 import io.keepcoding.filmica.view.util.SimpleTarget
-import kotlinx.android.synthetic.main.item_film.view.*
+import kotlinx.android.synthetic.main.item_watchlist.view.*
 
-class FilmsAdapter(val listener: (Film) -> Unit) :
-    BaseFilmAdapter<FilmsAdapter.FilmViewHolder>(
-        layoutItem = R.layout.item_film,
-        holderCreator = { view -> FilmViewHolder(view, listener) }
-    ) {
+class WatchListAdapter(val listener: (Film) -> Unit) :
+    BaseFilmAdapter<WatchListAdapter.WatchListHolder>(
+        R.layout.item_watchlist,
+        { view -> WatchListHolder(view, listener) }
+        ) {
 
-
-    class FilmViewHolder(itemView: View, listener: (Film) -> Unit) : BaseFilmHolder(
+    class WatchListHolder(itemView: View, listener: (Film) -> Unit) : BaseFilmHolder(
         itemView,
         listener
     ) {
-
         override fun bindFilm(film: Film) {
             super.bindFilm(film)
 
             with(itemView) {
                 labelTitle.text = film.title
-                labelGenre.text = film.genre
-                labelRating.text = film.rating.toString()
+                labelVotes.text = film.rating.toString()
+                labelOverview.text = film.overview
 
                 loadImage(film)
             }
         }
-
 
         private fun loadImage(it: Film) {
             val target = SimpleTarget { bitmap: Bitmap ->
@@ -58,9 +56,16 @@ class FilmsAdapter(val listener: (Film) -> Unit) :
                 val swatch = it?.vibrantSwatch ?: it?.dominantSwatch
                 val color = swatch?.rgb ?: defaultColor
 
-                itemView.container.setBackgroundColor(color)
-                itemView.containerData.setBackgroundColor(color)
+                val overlayColor = Color.argb(
+                    (Color.alpha(color) * 0.5).toInt(),
+                    Color.red(color),
+                    Color.green(color),
+                    Color.blue(color)
+                )
+
+                itemView.imgOverlay.setBackgroundColor(overlayColor)
             }
         }
     }
+
 }
