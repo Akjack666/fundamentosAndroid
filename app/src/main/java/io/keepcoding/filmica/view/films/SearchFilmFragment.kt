@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import io.keepcoding.filmica.R
 import io.keepcoding.filmica.data.Film
 import io.keepcoding.filmica.data.FilmsRepo
@@ -63,8 +64,21 @@ class SearchFilmFragment : Fragment() {
         list.adapter = adapter
         //  buttonRetry.setOnClickListener { reload() }
         btSearch.setOnClickListener {
+
+            setMovie(view)
+
+
+        }
+    }
+
+    private fun setMovie(view: View) {
+        if (etSearch.text.toString().length > 3) {
             movie = etSearch.text.toString()
             reload()
+        } else {
+            Toast.makeText(
+                view.context, "Debes introducir un minimo de 3 caracteres", Toast.LENGTH_LONG
+            ).show()
         }
     }
 
@@ -80,7 +94,7 @@ class SearchFilmFragment : Fragment() {
             { films ->
                 adapter.setFilms(films)
                 if(films.isEmpty()){
-                    errorSearch.visibility = View.VISIBLE
+                    showError()
                 }else {
                     showList()
 
@@ -94,19 +108,20 @@ class SearchFilmFragment : Fragment() {
 
     private fun showList() {
         searchFilmsProgress.visibility = View.INVISIBLE
-     //   errorSearch.visibility = View.INVISIBLE
+        errorSearch.visibility = View.INVISIBLE
         list.visibility = View.VISIBLE
     }
 
     private fun showError() {
         searchFilmsProgress.visibility = View.INVISIBLE
         list.visibility = View.INVISIBLE
-     //   errorSearch.visibility = View.VISIBLE
+        errorSearch.visibility = View.VISIBLE
     }
+
 
     private fun showProgress() {
         searchFilmsProgress.visibility = View.VISIBLE
-    //    errorSearch.visibility = View.INVISIBLE
+        errorSearch.visibility = View.INVISIBLE
         list.visibility = View.INVISIBLE
     }
 

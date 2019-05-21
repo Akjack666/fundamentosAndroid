@@ -20,9 +20,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:gravity="center_horizontal"
-            >
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/etSearch"
@@ -30,8 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:gravity="center_horizontal"
-                android:hint="@string/search"
-                />
+                android:hint="@string/search" />
 
             <Button
                 android:id="@+id/btSearch"
@@ -45,8 +43,6 @@
 
 
 
-
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/searchListFilms"
             android:layout_width="match_parent"
@@ -56,13 +52,16 @@
             app:spanCount="3"
             tools:listitem="@layout/item_film">
 
+
+
         </android.support.v7.widget.RecyclerView>
 
-        <include
-            android:id="@+id/errorSearch"
-            layout="@layout/layout_error_search"
-            android:visibility="invisible" />
 
 
     </LinearLayout>
+
+    <include
+        android:id="@+id/errorSearch"
+        layout="@layout/layout_error_search"
+        android:visibility="invisible" />
 </FrameLayout>
