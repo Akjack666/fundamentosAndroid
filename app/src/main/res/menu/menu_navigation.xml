@@ -4,10 +4,20 @@
     <item
         android:id="@+id/action_discover"
         android:icon="@drawable/ic_discover"
-        android:title="@string/title_discover"/>
+        android:title="@string/title_discover" />
 
     <item
         android:id="@+id/action_watchlist"
         android:icon="@drawable/ic_watchlist"
-        android:title="@string/title_watchlist"/>
+        android:title="@string/title_watchlist" />
+
+    <item
+        android:id="@+id/action_trending_movies"
+        android:icon="@drawable/ic_trending_24dp"
+        android:title="@string/title_trending" />
+
+    <item
+        android:id="@+id/action_search_movies"
+        android:icon="@drawable/ic_search"
+        android:title="@string/title_search" />
 </menu>

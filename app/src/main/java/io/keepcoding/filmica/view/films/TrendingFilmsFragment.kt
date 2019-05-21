@@ -14,8 +14,9 @@ import io.keepcoding.filmica.view.listeners.OnFilmClickLister
 import io.keepcoding.filmica.view.util.GridOffsetDecoration
 import kotlinx.android.synthetic.main.fragment_films.*
 import kotlinx.android.synthetic.main.layout_error.*
+import kotlin.error
 
-class FilmsFragment : Fragment() {
+class TrendingFilmsFragment : Fragment() {
 
     lateinit var listener: OnFilmClickLister
 
@@ -34,7 +35,8 @@ class FilmsFragment : Fragment() {
         if (context is OnFilmClickLister) {
             listener = context
         } else {
-            throw IllegalArgumentException("The attached activity isn't implementing ${OnFilmClickLister::class.java.canonicalName}")
+            throw IllegalArgumentException("The attached activity isn't implementing " +
+                    "${OnFilmClickLister::class.java.canonicalName}")
         }
     }
 
@@ -61,7 +63,7 @@ class FilmsFragment : Fragment() {
     private fun reload() {
         showProgress()
 
-        FilmsRepo.discoverFilms(context!!,
+        FilmsRepo.trendingFilms(context!!,
             { films ->
                 adapter.setFilms(films)
                 showList()
