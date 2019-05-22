@@ -2,12 +2,14 @@ package io.keepcoding.filmica.view.watchlist
 
 
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 
 import io.keepcoding.filmica.R
 import io.keepcoding.filmica.data.Film
@@ -45,7 +47,23 @@ class WatchlistFragment : Fragment() {
                 val film = (holder as BaseFilmHolder).film
                 val position = holder.adapterPosition
                 deleteFilm(film, position)
+
+                Snackbar.make(holder.itemView, "Eliminado del watchlist", Snackbar.LENGTH_LONG)
+                    .setAction("UNDO", View.OnClickListener {
+                        film?.let {
+                            FilmsRepo.saveFilm(context!!, it) {
+                                adapter.notifyDataSetChanged()
+                                Toast.makeText(context, "anadido al watchlist", Toast.LENGTH_LONG)
+                                    .show()
+                            }
+                        }
+                    })
+
+                    .show()
+
             }
+
+
         }
 
         val itemTouchHelper = ItemTouchHelper(swipeHandler)

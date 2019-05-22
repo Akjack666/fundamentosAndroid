@@ -61,8 +61,10 @@ data class Film(
             for (i in 0..(genresArray.length() - 1)) {
                 val genreId = genresArray.getInt(i)
                 val genre = ApiConstants.genres[genreId] ?: ""
+
                 genres.add(genre)
             }
+
 
            // return genres.reduce { acc, genre ->  "$acc | $genre" }
             return ""

@@ -18,4 +18,5 @@
     <string name="title_search">Search Movies</string>
     <string name="search">Search</string>
     <string name="error_search">No se han encontrado resultados</string>
+    <string name="placeholder_title">Detail Zone</string>
 </resources>

@@ -13,16 +13,27 @@ class DetailActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             val fragment = DetailFragment()
+            val placeholder = PlaceholderFragment()
             val id = intent.getStringExtra("id")
+            val type = intent.getStringExtra("type")
+
 
             val args = Bundle()
             args.putString("id", id)
 
             fragment.arguments = args
 
-            supportFragmentManager.beginTransaction()
-                    .add(R.id.container, fragment)
+            if(type == "placeholder") {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.container, placeholder)
                     .commit()
+
+            } else {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.container, fragment)
+                    .commit()
+            }
+
 
         }
     }

@@ -9,6 +9,7 @@ import io.keepcoding.filmica.R
 import io.keepcoding.filmica.data.Film
 import io.keepcoding.filmica.view.detail.DetailActivity
 import io.keepcoding.filmica.view.detail.DetailFragment
+import io.keepcoding.filmica.view.detail.PlaceholderFragment
 import io.keepcoding.filmica.view.listeners.OnFilmClickLister
 import io.keepcoding.filmica.view.watchlist.WatchlistFragment
 import kotlinx.android.synthetic.main.activity_films.*
@@ -51,6 +52,23 @@ class FilmsActivity : AppCompatActivity(),
             true
         }
 
+        setPlaceHolder()
+
+    }
+
+    private fun setPlaceHolder() {
+        if (!isDetailDetailViewAvailable()) {
+            val intent = Intent(this, DetailActivity::class.java)
+            intent.putExtra("type", "placeholder")
+            startActivity(intent)
+        } else {
+            supportFragmentManager.beginTransaction()
+                .replace(
+                    R.id.container_detail,
+                    PlaceholderFragment()
+                )
+                .commit()
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -132,5 +150,7 @@ class FilmsActivity : AppCompatActivity(),
     }
 
     private fun isDetailDetailViewAvailable() =
+        findViewById<FrameLayout>(R.id.container_detail) != null
+    private fun isPlaceholderViewAvailable() =
         findViewById<FrameLayout>(R.id.container_detail) != null
 }
