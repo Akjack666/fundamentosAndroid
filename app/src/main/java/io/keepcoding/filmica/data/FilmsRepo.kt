@@ -14,6 +14,8 @@ import kotlinx.coroutines.launch
 object FilmsRepo {
 
     private val films: MutableList<Film> = mutableListOf()
+    private val filmsTrends: MutableList<Film> = mutableListOf()
+    private val filmsSearch: MutableList<Film> = mutableListOf()
 
     @Volatile
     private var db: FilmDatabase? = null
@@ -32,6 +34,20 @@ object FilmsRepo {
 
     fun findFilmById(id: String): Film? {
         return films.find {
+            return@find it.id == id
+        }
+
+    }
+
+    fun findFilmTrendsById(id: String): Film? {
+        return filmsTrends.find {
+            return@find it.id == id
+        }
+
+    }
+
+    fun findFilmSearchById(id: String): Film? {
+        return filmsSearch.find {
             return@find it.id == id
         }
 
@@ -119,11 +135,11 @@ object FilmsRepo {
         val url = ApiRoutes.trendingMoviesUrl()
         val request = JsonObjectRequest(Request.Method.GET, url, null,
             { response ->
-                val films =
+                val filmsTrends =
                     Film.parseFilms(response.getJSONArray("results"))
-                FilmsRepo.films.clear()
-                FilmsRepo.films.addAll(films)
-                onResponse.invoke(FilmsRepo.films)
+                FilmsRepo.filmsTrends.clear()
+                FilmsRepo.filmsTrends.addAll(filmsTrends)
+                onResponse.invoke(FilmsRepo.filmsTrends)
             },
             { error ->
                 error.printStackTrace()
@@ -145,11 +161,11 @@ object FilmsRepo {
         val url = ApiRoutes.searchMoviesUrl(language,sort,movie)
         val request = JsonObjectRequest(Request.Method.GET, url, null,
             { response ->
-                val films =
+                val filmsSearch =
                     Film.parseFilms(response.getJSONArray("results"))
-                FilmsRepo.films.clear()
-                FilmsRepo.films.addAll(films)
-                onResponse.invoke(FilmsRepo.films)
+                FilmsRepo.filmsSearch.clear()
+                FilmsRepo.filmsSearch.addAll(filmsSearch)
+                onResponse.invoke(FilmsRepo.filmsSearch)
             },
             { error ->
                 error.printStackTrace()

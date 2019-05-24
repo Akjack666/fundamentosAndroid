@@ -16,10 +16,12 @@ class DetailActivity : AppCompatActivity() {
             val placeholder = PlaceholderFragment()
             val id = intent.getStringExtra("id")
             val type = intent.getStringExtra("type")
+            val fragmentType = intent.getStringExtra("fType")
 
 
             val args = Bundle()
             args.putString("id", id)
+            args.putString("fragmentType",fragmentType)
 
             fragment.arguments = args
 

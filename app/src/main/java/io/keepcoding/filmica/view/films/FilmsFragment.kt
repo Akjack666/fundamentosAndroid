@@ -3,14 +3,17 @@ package io.keepcoding.filmica.view.films
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import io.keepcoding.filmica.R
-import io.keepcoding.filmica.data.Film
 import io.keepcoding.filmica.data.FilmsRepo
 import io.keepcoding.filmica.view.listeners.OnFilmClickLister
+import io.keepcoding.filmica.view.util.EndlessRecyclerViewScrollListener
 import io.keepcoding.filmica.view.util.GridOffsetDecoration
 import kotlinx.android.synthetic.main.fragment_films.*
 import kotlinx.android.synthetic.main.layout_error.*
@@ -18,11 +21,14 @@ import kotlinx.android.synthetic.main.layout_error.*
 class FilmsFragment : Fragment() {
 
     lateinit var listener: OnFilmClickLister
+    lateinit var scrollListener: EndlessRecyclerViewScrollListener
+
 
     val list: RecyclerView by lazy {
         listFilms.addItemDecoration(GridOffsetDecoration())
         return@lazy listFilms
     }
+
 
     val adapter = FilmsAdapter {
         listener.onClick(it)
@@ -36,6 +42,8 @@ class FilmsFragment : Fragment() {
         } else {
             throw IllegalArgumentException("The attached activity isn't implementing ${OnFilmClickLister::class.java.canonicalName}")
         }
+
+
     }
 
     override fun onCreateView(
@@ -51,7 +59,26 @@ class FilmsFragment : Fragment() {
 
         list.adapter = adapter
         buttonRetry.setOnClickListener { reload() }
+
+        val layoutManager = list.layoutManager as GridLayoutManager
+
+        scrollListener = object : EndlessRecyclerViewScrollListener(layoutManager) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+                Toast.makeText(view!!.context,"Fin",Toast.LENGTH_LONG).show()
+              //  Toast.makeText(view!!.context,totalItemsCount,Toast.LENGTH_LONG).show()
+
+
+
+            }
+
+
+        }
+
+        list.addOnScrollListener(scrollListener)
+
+
     }
+
 
     override fun onResume() {
         super.onResume()
@@ -88,8 +115,6 @@ class FilmsFragment : Fragment() {
         error.visibility = View.INVISIBLE
         list.visibility = View.INVISIBLE
     }
-
-
 
 
 }

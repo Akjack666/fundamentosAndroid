@@ -23,10 +23,11 @@ class DetailFragment : Fragment() {
     var film: Film? = null
 
     companion object {
-        fun newInstance(filId: String): DetailFragment {
+        fun newInstance(filId: String, fragmentType: String): DetailFragment {
             val fragment = DetailFragment()
             val bundle = Bundle()
             bundle.putString("id", filId)
+            bundle.putString("fragmentType", fragmentType)
             fragment.arguments = bundle
 
             return fragment
@@ -52,7 +53,7 @@ class DetailFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId == R.id.action_share) {
+        if (item.itemId == R.id.action_share) {
             shareFilm()
         }
 
@@ -75,7 +76,16 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val id = arguments?.getString("id", "")
-        film = FilmsRepo.findFilmById(id!!)
+        val fragmentType = arguments?.getString("fragmentType", "")
+
+        if (fragmentType == "trendingFilms") {
+            film = FilmsRepo.findFilmTrendsById(id!!)
+        } else if (fragmentType == "searchFilm") {
+            film = FilmsRepo.findFilmSearchById(id!!)
+        } else {
+            film = FilmsRepo.findFilmById(id!!)
+        }
+
 
         film?.let {
             labelTitle.text = it.title
@@ -95,14 +105,15 @@ class DetailFragment : Fragment() {
             }
 
             Snackbar.make(view, "Añadido al watchlist", Snackbar.LENGTH_LONG)
-            .setAction("UNDO", View.OnClickListener {
-                film?.let {
-                    FilmsRepo.deleteFilm(context!!, it) {
-                        Toast.makeText(context, "Eliminado del watchlist", Toast.LENGTH_LONG).show()
+                .setAction("UNDO", View.OnClickListener {
+                    film?.let {
+                        FilmsRepo.deleteFilm(context!!, it) {
+                            Toast.makeText(context, "Eliminado del watchlist", Toast.LENGTH_LONG)
+                                .show()
+                        }
                     }
-                }
 
-            })
+                })
 
                 .show()
         }

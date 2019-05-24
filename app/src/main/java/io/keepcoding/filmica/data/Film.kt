@@ -19,7 +19,7 @@ data class Film(
     val date: String = "1999-09-19"
 ) {
     @Ignore
-    constructor(): this("")
+    constructor() : this("")
 
     fun getPosterUrl(): String {
         return "https://image.tmdb.org/t/p/w500/${posterId}"
@@ -62,12 +62,13 @@ data class Film(
                 val genreId = genresArray.getInt(i)
                 val genre = ApiConstants.genres[genreId] ?: ""
 
-                genres.add(genre)
+                    genres.add(genre)
+
             }
 
 
-           // return genres.reduce { acc, genre ->  "$acc | $genre" }
-            return ""
+           // return genres.reduce { acc, genre -> "$acc | $genre" }
+             return ""
 
         }
     }

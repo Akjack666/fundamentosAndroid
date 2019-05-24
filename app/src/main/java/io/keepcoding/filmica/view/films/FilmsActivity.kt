@@ -56,6 +56,8 @@ class FilmsActivity : AppCompatActivity(),
 
     }
 
+
+
     private fun setPlaceHolder() {
         if (!isDetailDetailViewAvailable()) {
             val intent = Intent(this, DetailActivity::class.java)
@@ -137,12 +139,13 @@ class FilmsActivity : AppCompatActivity(),
         if (!isDetailDetailViewAvailable()) {
             val intent = Intent(this, DetailActivity::class.java)
             intent.putExtra("id", film.id)
+            intent.putExtra("fType",activeFragment.tag)
             startActivity(intent)
         } else {
             supportFragmentManager.beginTransaction()
                 .replace(
                     R.id.container_detail,
-                    DetailFragment.newInstance(film.id)
+                    DetailFragment.newInstance(film.id,activeFragment.tag!!)
                 )
                 .commit()
         }
@@ -151,6 +154,5 @@ class FilmsActivity : AppCompatActivity(),
 
     private fun isDetailDetailViewAvailable() =
         findViewById<FrameLayout>(R.id.container_detail) != null
-    private fun isPlaceholderViewAvailable() =
-        findViewById<FrameLayout>(R.id.container_detail) != null
+
 }
