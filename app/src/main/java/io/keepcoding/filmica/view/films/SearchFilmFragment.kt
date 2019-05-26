@@ -22,7 +22,7 @@ class SearchFilmFragment : Fragment() {
 
     var movie: String = "matrix"
     var language: String = "en-US"
-   var  sort: String = "popularity.desc"
+    var sort: String = "popularity.desc"
 
 
     lateinit var listener: OnFilmClickLister
@@ -93,17 +93,18 @@ class SearchFilmFragment : Fragment() {
         FilmsRepo.searchFilms(context!!,
             { films ->
                 adapter.setFilms(films)
-                if(films.isEmpty()){
+                if (films.isEmpty()) {
                     showError()
-                }else {
+                } else {
                     showList()
 
                 }
 
             }, { errorRequest ->
                 showError()
-            } ,language,sort, movie
+            }, language, sort, movie
         )
+
     }
 
     private fun showList() {
@@ -124,8 +125,6 @@ class SearchFilmFragment : Fragment() {
         errorSearch.visibility = View.INVISIBLE
         list.visibility = View.INVISIBLE
     }
-
-
 
 
 }

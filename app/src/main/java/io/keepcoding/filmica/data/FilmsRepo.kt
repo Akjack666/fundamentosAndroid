@@ -104,9 +104,12 @@ object FilmsRepo {
     fun discoverFilms(
         context: Context,
         onResponse: (List<Film>) -> Unit,
-        onError: (VolleyError) -> Unit
+        onError: (VolleyError) -> Unit,
+        language: String = "en-US",
+        sort: String = "popularity.desc",
+        page: String
     ) {
-        val url = ApiRoutes.discoverMoviesUrl()
+        val url = ApiRoutes.discoverMoviesUrl(language,sort,page)
         val request = JsonObjectRequest(Request.Method.GET, url, null,
             { response ->
                 val films =
@@ -130,9 +133,12 @@ object FilmsRepo {
     fun trendingFilms(
         context: Context,
         onResponse: (List<Film>) -> Unit,
-        onError: (VolleyError) -> Unit
+        onError: (VolleyError) -> Unit,
+        language: String = "en-US",
+        sort: String = "popularity.desc",
+        page: String
     ) {
-        val url = ApiRoutes.trendingMoviesUrl()
+        val url = ApiRoutes.trendingMoviesUrl(language,sort,page)
         val request = JsonObjectRequest(Request.Method.GET, url, null,
             { response ->
                 val filmsTrends =

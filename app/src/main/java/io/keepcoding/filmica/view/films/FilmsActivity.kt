@@ -52,7 +52,10 @@ class FilmsActivity : AppCompatActivity(),
             true
         }
 
-        setPlaceHolder()
+        if (isDetailDetailViewAvailable()) {
+            setPlaceHolder()
+        }
+
 
     }
 
@@ -61,7 +64,6 @@ class FilmsActivity : AppCompatActivity(),
     private fun setPlaceHolder() {
         if (!isDetailDetailViewAvailable()) {
             val intent = Intent(this, DetailActivity::class.java)
-            intent.putExtra("type", "placeholder")
             startActivity(intent)
         } else {
             supportFragmentManager.beginTransaction()

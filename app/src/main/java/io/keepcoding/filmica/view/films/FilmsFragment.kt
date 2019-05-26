@@ -22,6 +22,9 @@ class FilmsFragment : Fragment() {
 
     lateinit var listener: OnFilmClickLister
     lateinit var scrollListener: EndlessRecyclerViewScrollListener
+    var pageInt: Int = 1
+    var language: String = "en-US"
+    var sort: String = "popularity.desc"
 
 
     val list: RecyclerView by lazy {
@@ -58,21 +61,21 @@ class FilmsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         list.adapter = adapter
-        buttonRetry.setOnClickListener { reload() }
+        buttonRetry.setOnClickListener { reload(pageInt) }
 
         val layoutManager = list.layoutManager as GridLayoutManager
 
         scrollListener = object : EndlessRecyclerViewScrollListener(layoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
-                Toast.makeText(view!!.context,"Fin",Toast.LENGTH_LONG).show()
-              //  Toast.makeText(view!!.context,totalItemsCount,Toast.LENGTH_LONG).show()
-
-
+                pageInt = page
+                reload(page)
 
             }
 
 
         }
+        scrollListener.resetState()
+        list.adapter!!.notifyItemRangeInserted(0, 20)
 
         list.addOnScrollListener(scrollListener)
 
@@ -82,11 +85,12 @@ class FilmsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        reload()
+        reload(pageInt)
     }
 
-    private fun reload() {
+    private fun reload(page: Int) {
         showProgress()
+        var pageString: String = page.toString()
 
         FilmsRepo.discoverFilms(context!!,
             { films ->
@@ -95,7 +99,10 @@ class FilmsFragment : Fragment() {
 
             }, { errorRequest ->
                 showError()
-            })
+            }, language, sort, pageString
+        )
+
+
     }
 
     private fun showList() {
